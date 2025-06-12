@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - School Quiz app</title>
+  <style>
+    @font-face {
+      font-family: 'O';
+      src: url('Poppins.ttf') format('truetype');
+    }
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'O', sans-serif;
+    }
+    body {
+      background: url('Head.png');
+
+      color: white;
+    }
+    .body-bg{
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .header {
+      height: 80px;
+      background: rgb(0,70,10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled {
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .logo img {
+      height: 160px;
+      width: auto;
+      position: relative;
+      left: 20px;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled .logo img {
+      left: 0px;
+    }
+    #check {
+      display: none;
+    }
+    #open, #cancel {
+      font-size: 30px;
+      cursor: pointer;
+      transition: 0.6s;
+    }
+    #open {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      color: white;
+    }
+    .header.scrolled #open {
+      right: 20px;
+    }
+    #cancel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 15;
+      color: black;
+    }
+    .nav-cont {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 50vw;
+      height: 100vh;
+      background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.5));
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 40px 30px;
+      transition: all 0.4s ease-in-out;
+      z-index: 15;
+    }
+    #check:checked ~ .nav-cont {
+      right: 0;
+    }
+    #check:checked ~ #layon {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+    .links {
+      margin-top: 100px;
+      width: 100%;
+    }
+    .links a {
+      display: block;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      color: black;
+      text-decoration: none;
+      text-transform: uppercase;
+      position: relative;
+      margin-bottom: 10px;
+      border-left: 3px solid transparent;
+      transition: all 0.5s ease;
+    }
+    .links a:hover {
+      background: rgba(255,255,255,0.1);
+      border-left: 3px solid white;
+      padding-left: 20px;
+    }
+    .links .dropdown {
+      position: relative;
+    }
+    .links .dropdown-content {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    .links .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    .links .dropdown-content a {
+      font-size: 0.95rem;
+      padding-left: 20px;
+      border-left: none;
+    }
+    .links .dropdown-content a:hover {
+      border-left: none;
+      padding-left: 25px;
+      background-color: rgba(255,255,255,0.15);
+    }
+    #layon {
+      background: rgba(0,0,0,0.4);
+    }
+    @media (min-width: 768px) {
+      .nav-cont {
+        width: 300px;
+      }
+    }
+    main section {
+      padding: 40px;
+    }
+    main h2 {
+      margin-bottom: 20px;
+    }
+    main p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+   section p a{
+     Color: rgba(0,70,10,1);
+     text-decoration: underline solid black;
+   }
+   section p a:hover{
+     Color: darkolive;
+     text-decoration: underline solid darkolive;
+   }
+    footer {
+      background: rgba(0,70,10,1);
+      padding: 15px 0px;
+      text-align: center;
+      color: white;
+    }
+    footer p {
+      text-align: center;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="body-bg">
+  <header class="header" id="header">
+    <div class="logo">
+      <img src="log.png" alt="Logo">
+    </div>
+    <input type="checkbox" id="check">
+    <label for="check" id="open">☰</label>
+    <label for="check" id="layon"></label>
+    <nav class="nav-cont">
+      <label for="check" id="cancel">✖</label>
+      <div class="links">
+        <a href="home.html"><img src="fi-sr-home.svg" width="30px" height="20px" /> Home</a>
+        <a href="about.html"><img src="fi-sr-book-alt.svg" width="30px" height="20px" /> About</a>
+        <a href="services.html"><img src="fi-sr-customer-service.svg" width="30px" height="25px" /> Services</a>
+        <a href="contact.html"><img src="fi-sr-phone-call.svg" width="30px" height="20px" /> Contact</a>
+        <div class="dropdown">
+          <a href="#"><img src="fi-sr-quiz.svg" width="30px" height="20px" /> Take a Quiz</a>
+          <div class="dropdown-content">
+            <a href="quiz-natural.html">For Natural Students</a>
+            <a href="quiz-social.html">For Social Students</a>
+          </div>
+        </div>
+        <a href="login.html"><img src="fi-sr-user.svg" width="30px" height="20px" /> Login</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h1><img src="fi-sr-book.svg" width="30px" height="20px" />About Our School Quiz Web-App</h1>
+      <p>Welcome to the School Quiz Portal, an initiative dedicated to enhancing the learning experience for students at **Sabian Secondary and Preparatory School**. Our platform provides an interactive way to test knowledge and prepare for exams across various subjects. This School quiz portal is mainly created by Juniour Developer Bisrat Tibebu. For more info <a href="https://t.me/YEKIDILIJ" target="_blank">Contact the Dev</a> .</p>
+
+      <h2><img src="fi-sr-rocket.svg" width="30px" height="20px" />Our Mission</h2>
+      <p>Our mission is to empower students through accessible, engaging, and effective learning tools. We believe that regular self-assessment is crucial for academic success, and our portal is designed to make this process seamless and enjoyable. We aim to foster a culture of continuous learning and improvement among our students.</p>
+
+      <h2><img src="fi-sr-book-user.svg" width="30px" height="20px" />About Sabian Secondary and Preparatory School</h2>
+      <p>Sabian Secondary and Preparatory School has a long-standing commitment to academic excellence and holistic student development. Founded on principles of quality education and a nurturing environment, we strive to equip our students with the knowledge and skills necessary to excel in their academic pursuits and beyond. This quiz portal is a testament to our dedication to leveraging technology for better educational outcomes.</p>
+
+      <h2><img src="fi-sr-dart.svg" width="30px" height="20px" />Our Values</h2>
+      <ul>
+        <li><strong>Accessibility -</strong> Ensuring all students have easy access to learning resources.</li>
+        <li><strong>Engagement -</strong> Creating interactive content that makes learning fun.</li>
+        <li><strong>Accuracy -</strong> Providing reliable and up-to-date quiz questions and information.</li>
+        <li><strong>Continuous Improvement -</strong> Regularly updating and enhancing the portal based on student feedback and educational needs.</li>
+        <li><strong>Student Empowerment -</strong> Giving students the tools to take control of their learning journey.</li>
+      </ul>
+    </section>
+  </main> 
+  <footer>
+    <p>© 2017 Eth.C | All rights reserved</p>
+    <p>Sabian Secondary and Preparatory School</p>
+    <p>Made by Students |<img src="fi-sr-Student.svg" width="30px" height="20px" /></p>
+  </footer>
+  </div>
+  <script>
+    window.addEventListener("scroll", function() {
+      const header = document.getElementById("header");
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - School Quiz App</title>
+  <style>
+    @font-face {
+      font-family: 'O';
+      src: url('Poppins.ttf') format('truetype');
+    }
+   @font-face {
+      font-family: 'B';
+      src: url('Bedrock.ttf') format('truetype');
+    }
+   @font-face {
+      font-family: 'P';
+      src: url('Pacifico.ttf') format('truetype');
+    }
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'O', sans-serif;
+    }
+    body {
+      background: url('Dd.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      height: 100vh;
+      color: white;
+    }
+   .body-bg{
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .header {
+      height: 80px;
+      background: rgb(0,70,10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled {
+      background: rgba(0, 0, 0,0.5);
+    }
+    .logo img {
+      height: 160px;
+      width: auto;
+      position: relative;
+      top: 5px;
+      left: 10px;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled .logo img {
+      left: 0px;
+    }
+    #check {
+      display: none;
+    }
+    #open, #cancel {
+      font-size: 30px;
+      cursor: pointer;
+      transition: 0.6s;
+    }
+    #open {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      color: white;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .header.scrolled #open {
+      right: 20px;
+    }
+    #cancel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 15;
+      color: black;
+    }
+    .nav-cont {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 50vw;
+      height: 100vh;
+      background-image: linear-gradient(180deg,rgba(255,255,255,0.2), rgba(0,0,0,0.1));
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 40px 30px;
+      transition: all 0.4s ease-in-out;
+      z-index: 15;
+    }
+    #check:checked ~ .nav-cont {
+      right: 0;
+    }
+    #check:checked ~ #layon {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+    .links {
+      margin-top: 100px;
+      width: 100%;
+    }
+    .links a {
+      display: block;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      color: black;
+      text-decoration: none;
+      text-transform: uppercase;
+      position: relative;
+      margin-bottom: 10px;
+      border-left: 3px solid transparent;
+      transition: all 0.5s ease;
+    }
+    .links a:hover {
+      background: rgba(255,255,255,0.1);
+      border-left: 3px solid white;
+      padding-left: 20px;
+    }
+    .links .dropdown {
+      position: relative;
+    }
+    .links .dropdown-content {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    .links .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    .links .dropdown-content a {
+      font-size: 0.9rem;
+      padding-left: 20px;
+      border-left: none;
+      transition:all 0.4s;
+    }
+    .links .dropdown-content a:hover {
+      border-left: none;
+      padding-left: 25px;
+      background-color: rgba(255,255,255,0.15);
+    }
+    #layon {
+      background: rgba(0,0,0,0.4);
+    }
+    @media (min-width: 768px) {
+      .nav-cont {
+        width: 300px;
+      }
+    }
+    main section {
+      padding: 40px;
+    }
+  .main{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 20vh;
+    height: 100vh;
+  }
+  .main h1{
+    font-family: 'B';
+    text-align: center;
+    font-size: 4rem;
+    background: linear-gradient(270deg,rgb(0,70,10), black,silver, rgb(0,70,10));
+    background-clip: text;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    display: inline block;
+    animation: Anim 2s ease-in-out 1;
+    }
+     @keyframes Anim{
+         to{
+             background-position: 400% center;
+         }
+     }
+  .main p{
+    background-image: linear-gradient(rgba(0,0,0,0.1));
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    padding: 7px;
+    text-align: left;
+    width: 85vw;
+    font-size: 1.3rem;
+    margin-top: 50px;
+    font-family: 'p';
+  }
+  .main h2{
+    font-family: 'P';
+    padding: 0;
+    font-size: 1.3rem;
+    text-align: right;
+  }
+  
+  /*.wrapper{
+      background: url('Head1.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: -1;
+  }*/
+    .news, .videos, .features {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.3rem;
+      margin-bottom: 0 auto;
+    }
+    .news article, .videos iframe, .features div {
+      margin-top: 20px;
+      background: rgba(0,0,0,0.1);
+      padding: 20px;
+      border-radius: 5px;
+    }
+    footer {
+      background: rgba(0,70,10,1);
+      padding: 15px 0px;
+      text-align: center;
+      color: white;
+    }
+    footer p {
+      text-align: center;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="body-bg">
+  <header class="header" id="header">
+    <div class="logo">
+      <img src="log.png" alt="Logo">
+    </div>
+    <input type="checkbox" id="check">
+    <label for="check" id="open">☰</label>
+    <label for="check" id="layon"></label>
+    <nav class="nav-cont">
+      <label for="check" id="cancel">✖</label>
+      <div class="links">
+        <a href="home.html"><img src="fi-sr-home.svg" width="30px" height="20px" /> Home</a>
+        <a href="about.html"><img src="fi-sr-book-alt.svg" width="30px" height="20px" /> About</a>
+        <a href="services.html"><img src="fi-sr-customer-service.svg" width="30px" height="25px" /> Services</a>
+        <a href="contact.html"><img src="fi-sr-phone-call.svg" width="30px" height="20px" /> Contact</a>
+        <div class="dropdown">
+          <a href="#"><img src="fi-sr-quiz.svg" width="30px" height="20px" /> Take a Quiz</a>
+          <div class="dropdown-content">
+            <a href="quiz-natural.html">For Natural Students</a>
+            <a href="quiz-social.html">For Social Students</a>
+          </div>
+        </div>
+        <a href="login.html"><img src="fi-sr-user.svg" width="30px" height="20px" /> Login</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="main">
+      <h1>Welcome to Our Quiz Web-App</h1>
+      <p>"The purpose of education is to replace an empty mind with an open one."</p>
+      <h2>~ Malcolm S.Forbes</h2>
+    </section>
+    <div class="wrapper">
+    <section class="news">
+      <h2><img src="fi-sr-newspaper.svg" width="30px" height="25px" /> School News</h2>
+      <article>
+        <h3>Exam Week Schedule Released</h3>
+        <p>Check your department noticeboard or visit our telegram channel to view the schedule.</p>
+      </article>
+      <article>
+        <h3>New Subjects Added</h3>
+        <p>We’ve added Physics and History to our quiz questions! Try them out now!</p>
+      </article>
+    </section>
+    <section class="videos">
+      <h2><img src="fi-sr-video-camera.svg" width="30px" height="25px" /> Study Guide Videos</h2>
+      <iframe width="100%" height="200" src="https://www.youtube.com/embed/5MgBikgcWnY" frameborder="0" allowfullscreen></iframe>
+      <iframe width="100%" height="200" src="https://www.youtube.com/embed/HAnw168huqA" frameborder="0" allowfullscreen></iframe>
+    </section>
+    <section class="features">
+      <h2>  New Features</h2>
+      <div>
+        <h3><img src="fi-sr-chart-line-up-down.svg" width="30px" height="20px" /> Real-time Results</h3>
+        <p>Get your scores immediately after taking a quiz!</p>
+      </div>
+      <div>
+        <h3><img src="fi-sr-bell-notification.svg" width="30px" height="20px" /> Notifications</h3>
+        <p>Stay updated with reminders and announcements from our Telegram channel.</p>
+      </div>
+    </section>
+    </div>
+  </main>
+  <footer>
+    <p>© 2017 Eth.C | All rights reserved</p>
+    <p>Sabian Secondary and Preparatory School</p>
+    <p>Made by Students |<img src="fi-sr-Student.svg" width="30px" height="20px" /></p>
+  </footer>
+ </div>
+  <script>
+    window.addEventListener("scroll", function() {
+      const header = document.getElementById("header");
+      if (window.scrollY > 1) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  </script>
+</body>
+</html>

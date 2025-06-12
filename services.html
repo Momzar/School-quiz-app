@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Services - School Quiz App</title>
+  <style>
+    @font-face {
+      font-family: 'O';
+      src: url('Poppins.ttf') format('truetype');
+    }
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'O', sans-serif;
+    }
+    body {
+      background: rgb(0,70,10);
+      color: white;
+    }
+    .header {
+      height: 80px;
+      background: rgb(0,70,10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled {
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .logo img {
+      height: 160px;
+      width: auto;
+      position: relative;
+      left: 20px;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled .logo img {
+      left: 0px;
+    }
+    #check {
+      display: none;
+    }
+    #open, #cancel {
+      font-size: 30px;
+      cursor: pointer;
+      transition: 0.6s;
+    }
+    #open {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      color: white;
+    }
+    .header.scrolled #open {
+      right: 20px;
+    }
+    #cancel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 15;
+      color: black;
+    }
+    .nav-cont {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 50vw;
+      height: 100vh;
+      background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.5));
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 40px 30px;
+      transition: all 0.4s ease-in-out;
+      z-index: 15;
+    }
+    #check:checked ~ .nav-cont {
+      right: 0;
+    }
+    #check:checked ~ #layon {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+    .links {
+      margin-top: 100px;
+      width: 100%;
+    }
+    .links a {
+      display: block;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      color: black;
+      text-decoration: none;
+      text-transform: uppercase;
+      position: relative;
+      margin-bottom: 10px;
+      border-left: 3px solid transparent;
+      transition: all 0.5s ease;
+    }
+    .links a:hover {
+      background: rgba(255,255,255,0.1);
+      border-left: 3px solid white;
+      padding-left: 20px;
+    }
+    .links .dropdown {
+      position: relative;
+    }
+    .links .dropdown-content {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    .links .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    .links .dropdown-content a {
+      font-size: 0.95rem;
+      padding-left: 20px;
+      border-left: none;
+    }
+    .links .dropdown-content a:hover {
+      border-left: none;
+      padding-left: 25px;
+      background-color: rgba(255,255,255,0.15);
+    }
+    #layon {
+      background: rgba(0,0,0,0.4);
+    }
+    @media (min-width: 768px) {
+      .nav-cont {
+        width: 300px;
+      }
+    }
+    main section {
+      padding: 40px;
+    }
+    main h1{
+      color: black;
+    }
+    main h2 {
+      margin-bottom: 20px;
+      color: white;
+    }
+    main .service-item {
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    main .service-item h3 {
+      margin-bottom: 10px;
+      color: white;
+    }
+    main .service-item p {
+      line-height: 1.6;
+    }
+    footer {
+      background: rgba(0,70,10,1);
+      padding: 15px 0px;
+      text-align: center;
+      color: white;
+    }
+    footer p {
+      text-align: center;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="logo">
+      <img src="log.png" alt="Logo">
+    </div>
+    <input type="checkbox" id="check">
+    <label for="check" id="open">☰</label>
+    <label for="check" id="layon"></label>
+    <nav class="nav-cont">
+      <label for="check" id="cancel">✖</label>
+      <div class="links">
+        <a href="home.html"><img src="fi-sr-home.svg" width="30px" height="20px" /> Home</a>
+        <a href="about.html"><img src="fi-sr-book-alt.svg" width="30px" height="20px" /> About</a>
+        <a href="services.html"><img src="fi-sr-customer-service.svg" width="30px" height="25px" /> Services</a>
+        <a href="contact.html"><img src="fi-sr-phone-call.svg" width="30px" height="20px" /> Contact</a>
+        <div class="dropdown">
+          <a href="#"><img src="fi-sr-quiz.svg" width="30px" height="20px" /> Take a Quiz</a>
+          <div class="dropdown-content">
+            <a href="quiz-natural.html">For Natural Students</a>
+            <a href="quiz-social.html">For Social Students</a>
+          </div>
+        </div>
+        <a href="login.html"><img src="fi-sr-user.svg" width="30px" height="20px" /> Login</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h1><img src="fi-sr-hammer-crash.svg" width="30px" height="30px" />Our Services</h1>
+      <div class="service-item">
+        <h3>Interactive Quizzes</h3>
+        <p>Engage with a wide variety of quizzes covering subjects for both Natural and Social Science streams. Our quizzes are designed to test your knowledge, help you identify areas for improvement, and prepare you for exams.</p>
+      </div>
+      <div class="service-item">
+        <h3>Study Resources</h3>
+        <p>Access supplementary study materials, practice questions, and curated links to external educational resources to deepen your understanding of various topics.</p>
+      </div>
+      <div class="service-item">
+        <h3>Performance Tracking</h3>
+        <p>Monitor your academic progress with our detailed results page. View your scores, track your performance over time, and gain insights into your strengths and weaknesses.</p>
+      </div>
+      <div class="service-item">
+        <h3>Notifications and Announcements</h3>
+        <p>Stay informed with important school news, exam schedules, and timely announcements directly through the portal and our linked Telegram channel.</p>
+      </div>
+      <div class="service-item">
+        <h3>User Support</h3>
+        <p>Our team is here to help! If you encounter any issues or have questions regarding the portal, our dedicated support is available to assist you.</p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>© 2017 Eth.C | All rights reserved</p>
+    <p>Sabian Secondary and Preparatory School</p>
+    <p>Made by Students |<img src="fi-sr-Student.svg" width="30px" height="20px" /></p>
+  </footer>
+  <script>
+    window.addEventListener("scroll", function() {
+      const header = document.getElementById("header");
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  </script>
+</body>
+</html>

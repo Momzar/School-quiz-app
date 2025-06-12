@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Natural Science Quizzes - School Quiz Portal</title>
+  <style>
+    @font-face {
+      font-family: 'O';
+      src: url('Poppins.ttf') format('truetype');
+    }
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'O', sans-serif;
+    }
+    body {
+      background: rgb(0,100,0);
+      color: white;
+    }
+    .header {
+      height: 80px;
+      background: rgb(0,70,10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled {
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .logo img {
+      height: 160px;
+      width: auto;
+      position: relative;
+      left: 20px;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled .logo img {
+      left: 0px;
+    }
+    #check {
+      display: none;
+    }
+    #open, #cancel {
+      font-size: 30px;
+      cursor: pointer;
+      transition: 0.6s;
+    }
+    #open {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      color: white;
+    }
+    .header.scrolled #open {
+      right: 20px;
+    }
+    #cancel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 15;
+      color: black;
+    }
+    .nav-cont {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 50vw;
+      height: 100vh;
+      background-image: linear-gradient(0deg,rgba(0,0,0,0.1),rgba(255,255,255,0.2));
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 40px 30px;
+      transition: all 0.4s ease-in-out;
+      z-index: 15;
+    }
+    #check:checked ~ .nav-cont {
+      right: 0;
+    }
+    #check:checked ~ #layon {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+    .links {
+      margin-top: 100px;
+      width: 100%;
+    }
+    .links a {
+      display: block;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      color: black;
+      text-decoration: none;
+      text-transform: uppercase;
+      position: relative;
+      margin-bottom: 10px;
+      border-left: 3px solid transparent;
+      transition: all 0.5s ease;
+    }
+    .links a:hover {
+      background: rgba(255,255,255,0.1);
+      border-left: 3px solid white;
+      padding-left: 20px;
+    }
+    .links .dropdown {
+      position: relative;
+    }
+    .links .dropdown-content {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    .links .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    .links .dropdown-content a {
+      font-size: 0.95rem;
+      padding-left: 20px;
+      border-left: none;
+    }
+    .links .dropdown-content a:hover {
+      border-left: none;
+      padding-left: 25px;
+      background-color: rgba(255,255,255,0.15);
+    }
+    #layon {
+      background: rgba(0,0,0,0.4);
+    }
+    @media (min-width: 768px) {
+      .nav-cont {
+        width: 300px;
+      }
+    }
+    main section {
+      padding: 40px;
+    }
+    main h1 {
+      margin-bottom: 20px;
+      color: white;
+    }
+  main p {
+      margin-bottom: 20px;
+      color: white;
+    }
+    .quiz-category {
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .quiz-category h2 {
+      margin-bottom: 15px;
+      color: white;
+    }
+    .quiz-list {
+      list-style: none;
+      padding: 0;
+    }
+    .quiz-list li {
+      margin-bottom: 15px;
+    }
+    .quiz-list li a {
+      display: block;
+      background: rgba(0,0,0,0.3);
+      padding: 15px 20px;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quiz-list li a:hover {
+      background: rgba(0,0,0,0.5);
+    }
+    .quiz-info span {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    .start-quiz-btn {
+      background: black; /* A brighter blue for the button */
+      color: white;
+      padding: 10px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .start-quiz-btn:hover {
+      background: white;
+      color: black;
+    }
+    footer {
+      background: rgba(0,70,10,1);
+      padding: 15px 0px;
+      text-align: center;
+      color: white;
+    }
+    footer p {
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    .quiz-modal {
+      display: none; 
+      position: fixed; 
+      z-index: 100; 
+      left: 0;
+      top: 0;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.8); 
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quiz-container {
+      background-image: linear-gradient(180deg,rgba(0,0,0,0.1),rgba(255,255,255,0.2));
+      backdrop-filter: blur(10px);
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 700px;
+      position: relative;
+      color: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .close-button {
+      color: white;
+      position: absolute;
+      top: 0px;
+      right: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .quiz-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.4rem;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .options label {
+      display: block;
+      background-color: rgba(255,255,255,0.1);
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .options label:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .quiz-btn {
+      background: black;
+      color: white;
+      padding: 5px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .quiz-btn:hover {
+      background: white;
+      color: black;
+    }
+
+    .feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      display: none; 
+    }
+
+    .feedback.correct {
+      background-color: rgba(0, 255, 0, 0.2);
+      color: #0f0;
+    }
+
+    .feedback.incorrect {
+      background-color: rgba(255, 0, 0, 0.2);
+      color: #f00;
+    }
+
+    .explanation {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .quiz-results {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .quiz-results h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .quiz-results p {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="logo">
+      <img src="log.png" alt="Logo">
+    </div>
+    <input type="checkbox" id="check">
+    <label for="check" id="open">☰</label>
+    <label for="check" id="layon"></label>
+    <nav class="nav-cont">
+      <label for="check" id="cancel">✖</label>
+      <div class="links">
+        <a href="home.html"><img src="fi-sr-home.svg" width="30px" height="20px" /> Home</a>
+        <a href="about.html"><img src="fi-sr-book-alt.svg" width="30px" height="20px" /> About</a>
+        <a href="services.html"><img src="fi-sr-customer-service.svg" width="30px" height="25px" /> Services</a>
+        <a href="contact.html"><img src="fi-sr-phone-call.svg" width="30px" height="20px" /> Contact</a>
+        <div class="dropdown">
+          <a href="#"><img src="fi-sr-quiz.svg" width="30px" height="20px" /> Take a Quiz</a>
+          <div class="dropdown-content">
+            <a href="quiz-natural.html">For Natural Students</a>
+            <a href="quiz-social.html">For Social Students</a>
+          </div>
+        </div>
+        <a href="login.html"><img src="fi-sr-user.svg" width="30px" height="20px" /> Login</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h1>Natural Science Quizzes</h1>
+      <p>Here you'll find quizzes tailored for students pursuing Natural Science studies. Choose a subject and start testing your knowledge!</p>
+
+      <div class="quiz-category">
+        <h2>Physics Quizzes</h2>
+        <ul class="quiz-list">
+          <li>
+            <a href="#">
+              <div>
+                <strong>Heat and thermodynamics</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="physics-heat">Start Quiz</button>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div>
+                <strong>Electricity and Magnetism</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="physics-electricity">Start Quiz</button>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div>
+                <strong>Optics Fundamentals</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="physics-optics">Start Quiz</button>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="quiz-category">
+        <h2>Chemistry Quizzes</h2>
+        <ul class="quiz-list">
+          <li>
+            <a href="#">
+              <div>
+                <strong>Chemical Bonding</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="chemistry-bonding">Start Quiz</button>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div>
+                <strong>Organic Chemistry</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="chemistry-organic">Start Quiz</button>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="quiz-category">
+        <h2>Biology Quizzes</h2>
+        <ul class="quiz-list">
+          <li>
+            <a href="#">
+              <div>
+                <strong>Cell Biology Basics</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="biology-cells">Start Quiz</button>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div>
+                <strong>Genetics and Heredity</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="biology-genetics">Start Quiz</button>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="quiz-category">
+        <h2>Mathematics Quizzes</h2>
+        <ul class="quiz-list">
+          <li>
+            <a href="#">
+              <div>
+                <strong>Algebra Fundamentals</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="math-algebra">Start Quiz</button>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div>
+                <strong>Calculus I</strong>
+                <div class="quiz-info"><span>5 Questions |</span></div>
+              </div>
+              <button class="start-quiz-btn" data-quiz="math-calculus">Start Quiz</button>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div class="quiz-modal" id="quizModal">
+    <div class="quiz-container">
+      <span class="close-button" id="closeQuizModal">&times;</span>
+      <h2 id="quizTitle"></h2>
+      <div id="quizContent">
+        </div>
+      <div class="controls">
+        <button class="quiz-btn" id="prevQuestion" style="display: none;">Previous</button>
+        <button class="quiz-btn" id="nextQuestion">Next</button>
+        <button class="quiz-btn" id="submitQuiz" style="display: none;">Submit Quiz</button>
+      </div>
+      <div id="quizResults" class="quiz-results" style="display: none;">
+        </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2017 Eth.C | All rights reserved</p>
+    <p>Sabian Secondary and Preparatory School</p>
+    <p>Made by Students |<img src="fi-sr-Student.svg" width="30px" height="20px" /></p>
+  </footer>
+  <script>
+    // Header scroll effect
+    window.addEventListener("scroll", function() {
+      const header = document.getElementById("header");
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+
+    // Quiz Data
+    const quizData = {
+      "physics-heat": [
+        {
+          question: "What is the SI unit of heat?",
+          options: ["Joule", "Calorie", "Watt", "Celsius"],
+          answer: "Joule",
+          explanation: "The SI unit of heat is the Joule (J), which is a unit of energy."
+        },
+        {
+          question: "Which of the following is NOT a mode of heat transfer?",
+          options: ["Conduction", "Convection", "Radiation", "Absorption"],
+          answer: "Absorption",
+          explanation: "Conduction, convection, and radiation are the three primary modes of heat transfer. Absorption is a process where heat is taken in, but not a mode of transfer itself."
+        },
+        {
+          question: "What is the relationship between temperature and kinetic energy?",
+          options: ["Directly proportional", "Inversely proportional", "No relation", "Exponentially related"],
+          answer: "Directly proportional",
+          explanation: "Temperature is a measure of the average kinetic energy of the particles within a substance. As kinetic energy increases, so does temperature."
+        },
+        {
+          question: "What is the specific heat capacity of a substance?",
+          options: ["The amount of heat required to raise the temperature of 1 kg of the substance by 1°C.", "The amount of heat released when 1 kg of the substance cools by 1°C.", "The total heat content of a substance.", "The rate at which heat is transferred."],
+          answer: "The amount of heat required to raise the temperature of 1 kg of the substance by 1°C.",
+          explanation: "Specific heat capacity is a measure of how much energy a substance can store for a given temperature change."
+        },
+        {
+          question: "Which law states that energy cannot be created or destroyed, only transferred or transformed?",
+          options: ["First Law of Thermodynamics", "Second Law of Thermodynamics", "Third Law of Thermodynamics", "Zeroth Law of Thermodynamics"],
+          answer: "First Law of Thermodynamics",
+          explanation: "The First Law of Thermodynamics is also known as the Law of Conservation of Energy."
+        }
+      ],
+      "physics-electricity": [
+        {
+          question: "What is Ohm's Law?",
+          options: ["V = IR", "P = VI", "E = mc²", "F = ma"],
+          answer: "V = IR",
+          explanation: "Ohm's Law states that the current through a conductor between two points is directly proportional to the voltage across the two points, and inversely proportional to the resistance between them."
+        },
+        {
+          question: "What is the unit of electric current?",
+          options: ["Volt", "Ampere", "Ohm", "Watt"],
+          answer: "Ampere",
+          explanation: "The Ampere (A) is the SI unit of electric current, defined as the flow of one Coulomb of charge per second."
+        },
+        {
+          question: "Which of the following is a good conductor of electricity?",
+          options: ["Glass", "Copper", "Rubber", "Wood"],
+          answer: "Copper",
+          explanation: "Copper is a metal with free electrons, allowing it to conduct electricity efficiently."
+        },
+        {
+          question: "What type of force exists between two like charges?",
+          options: ["Attractive", "Repulsive", "Neutral", "Gravitational"],
+          answer: "Repulsive",
+          explanation: "Like charges (positive-positive or negative-negative) repel each other, while opposite charges attract."
+        },
+        {
+          question: "What is a circuit breaker used for?",
+          options: ["To increase voltage", "To store energy", "To protect against overcurrent", "To convert AC to DC"],
+          answer: "To protect against overcurrent",
+          explanation: "A circuit breaker is an automatic switch that protects an electrical circuit from damage caused by excess current from an overload or short circuit."
+        }
+      ],
+      "physics-optics": [
+        {
+          question: "What phenomenon occurs when light passes from one medium to another and changes direction?",
+          options: ["Reflection", "Refraction", "Diffraction", "Interference"],
+          answer: "Refraction",
+          explanation: "Refraction is the bending of light as it passes from one transparent medium to another, due to a change in speed."
+        },
+        {
+          question: "Which type of lens is used to correct farsightedness (hyperopia)?",
+          options: ["Concave lens", "Convex lens", "Cylindrical lens", "Plano-concave lens"],
+          answer: "Convex lens",
+          explanation: "A convex lens converges light rays, helping to focus them correctly on the retina for farsighted individuals."
+        },
+        {
+          question: "What is the visible spectrum of light?",
+          options: ["All electromagnetic radiation", "Infrared and ultraviolet light", "The portion of the electromagnetic spectrum that is visible to the human eye", "Only X-rays"],
+          answer: "The portion of the electromagnetic spectrum that is visible to the human eye",
+          explanation: "The visible spectrum ranges from red (longest wavelength, lowest frequency) to violet (shortest wavelength, highest frequency)."
+        },
+        {
+          question: "What causes the separation of white light into its constituent colors when it passes through a prism?",
+          options: ["Reflection", "Dispersion", "Absorption", "Refraction"],
+          answer: "Dispersion",
+          explanation: "Dispersion is the phenomenon where the refractive index of a medium depends on the wavelength of light, causing different colors to bend at different angles."
+        },
+        {
+          question: "Which property of light is responsible for the formation of shadows?",
+          options: ["Refraction", "Reflection", "Diffraction", "Light travels in straight lines"],
+          answer: "Light travels in straight lines",
+          explanation: "Shadows are formed because light travels in straight lines, and opaque objects block the path of light."
+        }
+      ],
+      "chemistry-bonding": [
+        {
+          question: "What type of bond involves the sharing of electrons between atoms?",
+          options: ["Ionic bond", "Covalent bond", "Metallic bond", "Hydrogen bond"],
+          answer: "Covalent bond",
+          explanation: "Covalent bonds are formed when atoms share electrons to achieve a stable electron configuration, typically to fulfill the octet rule."
+        },
+        {
+          question: "Which of the following elements is most likely to form an ionic bond with chlorine (Cl)?",
+          options: ["Carbon (C)", "Oxygen (O)", "Sodium (Na)", "Neon (Ne)"],
+          answer: "Sodium (Na)",
+          explanation: "Sodium is an alkali metal that readily loses one electron to form a positive ion (Na+), while chlorine is a halogen that readily gains one electron to form a negative ion (Cl-). This electrostatic attraction forms an ionic bond."
+        },
+        {
+          question: "What is the octet rule?",
+          options: ["Atoms tend to lose electrons to achieve a stable electron configuration.", "Atoms tend to gain electrons to achieve a stable electron configuration.", "Atoms tend to achieve eight electrons in their outermost shell.", "Atoms tend to share electrons to achieve a stable electron configuration."],
+          answer: "Atoms tend to achieve eight electrons in their outermost shell.",
+          explanation: "The octet rule states that atoms tend to gain, lose, or share electrons to achieve a stable electron configuration with eight electrons in their valence shell, similar to noble gases (except for hydrogen and helium)."
+        },
+        {
+          question: "What is the strongest type of intermolecular force?",
+          options: ["London Dispersion Forces", "Dipole-Dipole Forces", "Hydrogen Bonding", "Ionic Bonding"],
+          answer: "Hydrogen Bonding",
+          explanation: "While ionic bonding is an intramolecular bond, among intermolecular forces, hydrogen bonding is generally the strongest, occurring between molecules containing hydrogen bonded to highly electronegative atoms like N, O, or F."
+        },
+        {
+          question: "In a polar covalent bond, electrons are:",
+          options: ["Shared equally", "Transferred completely", "Shared unequally", "Not involved"],
+          answer: "Shared unequally",
+          explanation: "A polar covalent bond forms when electrons are shared unequally between two atoms due to differences in electronegativity, creating partial positive and negative charges."
+        }
+      ],
+      "chemistry-organic": [
+        {
+          question: "Which element is the backbone of organic chemistry?",
+          options: ["Oxygen", "Hydrogen", "Carbon", "Nitrogen"],
+          answer: "Carbon",
+          explanation: "Carbon's ability to form four stable bonds with other carbon atoms and various other elements allows for the vast diversity of organic compounds."
+        },
+        {
+          question: "What is the general formula for an alkane?",
+          options: ["CnH2n", "CnH2n+2", "CnH2n-2", "CnHn"],
+          answer: "CnH2n+2",
+          explanation: "Alkanes are saturated hydrocarbons with only single bonds between carbon atoms. The formula CnH2n+2 accounts for the maximum number of hydrogen atoms."
+        },
+        {
+          question: "Which functional group characterizes alcohols?",
+          options: ["-COOH", "-CHO", "-OH", "-NH2"],
+          answer: "-OH",
+          explanation: "Alcohols contain a hydroxyl (-OH) functional group attached to a carbon atom."
+        },
+        {
+          question: "What is an isomer?",
+          options: ["Compounds with the same molecular formula but different structural formulas.", "Compounds with different molecular formulas but the same structural formulas.", "Compounds with the same number of atoms but different elements.", "Compounds that are mirror images of each other."],
+          answer: "Compounds with the same molecular formula but different structural formulas.",
+          explanation: "Isomers have the same molecular formula (same number and type of atoms) but differ in the arrangement of those atoms, leading to different properties."
+        },
+        {
+          question: "Which of the following is a saturated hydrocarbon?",
+          options: ["Ethene", "Propyne", "Butane", "Benzene"],
+          answer: "Butane",
+          explanation: "Saturated hydrocarbons contain only single carbon-carbon bonds. Ethene and propyne have double and triple bonds respectively, and benzene is aromatic."
+        }
+      ],
+      "biology-cells": [
+        {
+          question: "Which organelle is known as the 'powerhouse of the cell'?",
+          options: ["Nucleus", "Mitochondria", "Endoplasmic Reticulum", "Ribosome"],
+          answer: "Mitochondria",
+          explanation: "Mitochondria are responsible for cellular respiration, producing ATP (adenosine triphosphate) which is the main energy currency of the cell."
+        },
+        {
+          question: "What is the primary function of the cell membrane?",
+          options: ["To store genetic material", "To produce proteins", "To control what enters and leaves the cell", "To provide structural support"],
+          answer: "To control what enters and leaves the cell",
+          explanation: "The cell membrane is selectively permeable, regulating the passage of substances into and out of the cell."
+        },
+        {
+          question: "Which type of cell lacks a true nucleus and membrane-bound organelles?",
+          options: ["Eukaryotic cell", "Prokaryotic cell", "Plant cell", "Animal cell"],
+          answer: "Prokaryotic cell",
+          explanation: "Prokaryotic cells, such as bacteria and archaea, are simpler in structure and lack a membrane-bound nucleus and other organelles."
+        },
+        {
+          question: "What is the function of ribosomes?",
+          options: ["Energy production", "Protein synthesis", "Waste removal", "Genetic information storage"],
+          answer: "Protein synthesis",
+          explanation: "Ribosomes are responsible for translating messenger RNA (mRNA) into proteins."
+        },
+        {
+          question: "Which part of a plant cell provides rigid support and protection?",
+          options: ["Cell membrane", "Cytoplasm", "Cell wall", "Vacuole"],
+          answer: "Cell wall",
+          explanation: "The cell wall, made primarily of cellulose in plants, provides structural support and protection to the plant cell."
+        }
+      ],
+      "biology-genetics": [
+        {
+          question: "What is the basic unit of heredity?",
+          options: ["Chromosome", "Protein", "Gene", "Cell"],
+          answer: "Gene",
+          explanation: "A gene is a segment of DNA that contains the instructions for building a specific protein or RNA molecule, thus determining a trait."
+        },
+        {
+          question: "Who is considered the 'Father of Genetics'?",
+          options: ["Charles Darwin", "Gregor Mendel", "James Watson", "Francis Crick"],
+          answer: "Gregor Mendel",
+          explanation: "Gregor Mendel, through his experiments with pea plants, formulated the basic laws of inheritance."
+        },
+        {
+          question: "What is a dominant allele?",
+          options: ["An allele that is always expressed when present.", "An allele that is only expressed when two copies are present.", "An allele that causes a disease.", "An allele that is not passed down to offspring."],
+          answer: "An allele that is always expressed when present.",
+          explanation: "A dominant allele will always express its trait if it is present in the genotype, even if only one copy is inherited."
+        },
+        {
+          question: "What is the process by which DNA is copied into RNA?",
+          options: ["Replication", "Translation", "Transcription", "Mutation"],
+          answer: "Transcription",
+          explanation: "Transcription is the process of synthesizing an RNA molecule from a DNA template. Translation is the process of synthesizing protein from an RNA template."
+        },
+        {
+          question: "What is the human diploid number of chromosomes?",
+          options: ["23", "46", "2", "64"],
+          answer: "46",
+          explanation: "Human somatic cells are diploid, meaning they have two sets of chromosomes, one from each parent, totaling 46 chromosomes (23 pairs)."
+        }
+      ],
+      "math-algebra": [
+        {
+          question: "Solve for x: 2x + 5 = 15",
+          options: ["x = 5", "x = 10", "x = 2.5", "x = 7.5"],
+          answer: "x = 5",
+          explanation: "Subtract 5 from both sides: 2x = 10. Then divide by 2: x = 5."
+        },
+        {
+          question: "What is the value of 3² + 4²?",
+          options: ["7", "14", "25", "49"],
+          answer: "25",
+          explanation: "3² = 9 and 4² = 16. So, 9 + 16 = 25."
+        },
+        {
+          question: "Simplify the expression: 5(a + 2b) - 3a",
+          options: ["2a + 2b", "2a + 10b", "5a + 10b - 3a", "2a - 10b"],
+          answer: "2a + 10b",
+          explanation: "Distribute the 5: 5a + 10b - 3a. Combine like terms: (5a - 3a) + 10b = 2a + 10b."
+        },
+        {
+          question: "If y = 3x - 1, what is y when x = 4?",
+          options: ["9", "11", "13", "15"],
+          answer: "11",
+          explanation: "Substitute x = 4 into the equation: y = 3(4) - 1 = 12 - 1 = 11."
+        },
+        {
+          question: "Factor the quadratic expression: x² + 7x + 10",
+          options: ["(x + 2)(x + 5)", "(x + 1)(x + 10)", "(x - 2)(x - 5)", "(x + 7)(x + 3)"],
+          answer: "(x + 2)(x + 5)",
+          explanation: "We need two numbers that multiply to 10 and add up to 7. These numbers are 2 and 5."
+        }
+      ],
+      "math-calculus": [
+        {
+          question: "What is the derivative of x³?",
+          options: ["3x²", "x²/3", "3x", "2x³"],
+          answer: "3x²",
+          explanation: "Using the power rule for derivatives, if f(x) = x^n, then f'(x) = nx^(n-1). Here, n=3, so the derivative is 3x^(3-1) = 3x²."
+        },
+        {
+          question: "What does the definite integral of a function represent graphically?",
+          options: ["The slope of the tangent line", "The area under the curve", "The rate of change", "The y-intercept"],
+          answer: "The area under the curve",
+          explanation: "The definite integral of a function from a to b represents the signed area between the function's graph and the x-axis over the interval [a, b]."
+        },
+        {
+          question: "Find the limit as x approaches 0 for sin(x)/x.",
+          options: ["0", "1", "infinity", "undefined"],
+          answer: "1",
+          explanation: "This is a fundamental limit in calculus. As x approaches 0, sin(x) is approximately x, so sin(x)/x approaches 1."
+        },
+        {
+          question: "What is the second derivative of f(x) = 4x² - 2x + 1?",
+          options: ["8x - 2", "8", "4x - 2", "1"],
+          answer: "8",
+          explanation: "First derivative: f'(x) = 8x - 2. Second derivative: f''(x) = 8."
+        },
+        {
+          question: "Which of the following is the derivative of e^x?",
+          options: ["xe^(x-1)", "e^x", "e^(x+1)", "ln(x)"],
+          answer: "e^x",
+          explanation: "The exponential function e^x is unique in that its derivative (and integral) is itself."
+        }
+      ]
+    };
+
+    let currentQuiz = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let userAnswers = [];
+
+    const quizModal = document.getElementById("quizModal");
+    const closeQuizModal = document.getElementById("closeQuizModal");
+    const quizTitle = document.getElementById("quizTitle");
+    const quizContent = document.getElementById("quizContent");
+    const prevQuestionBtn = document.getElementById("prevQuestion");
+    const nextQuestionBtn = document.getElementById("nextQuestion");
+    const submitQuizBtn = document.getElementById("submitQuiz");
+    const quizResults = document.getElementById("quizResults");
+
+    // Event Listeners for "Start Quiz" buttons
+    document.querySelectorAll(".start-quiz-btn").forEach(button => {
+      button.addEventListener("click", function() {
+        const quizId = this.dataset.quiz;
+        startQuiz(quizId);
+      });
+    });
+
+    // Close Quiz Modal
+    closeQuizModal.addEventListener("click", () => {
+      quizModal.style.display = "none";
+      resetQuiz();
+    });
+
+    // Handle clicks outside the modal to close it
+    window.addEventListener("click", (event) => {
+      if (event.target == quizModal) {
+        quizModal.style.display = "none";
+        resetQuiz();
+      }
+    });
+
+    // Navigation Buttons
+    prevQuestionBtn.addEventListener("click", showPreviousQuestion);
+    nextQuestionBtn.addEventListener("click", showNextQuestion);
+    submitQuizBtn.addEventListener("click", calculateResults);
+
+    function startQuiz(quizId) {
+      currentQuiz = quizData[quizId];
+      if (!currentQuiz) {
+        alert("Quiz not found!");
+        return;
+      }
+
+      currentQuestionIndex = 0;
+      score = 0;
+      userAnswers = new Array(currentQuiz.length).fill(null); // Initialize user answers array
+
+      quizTitle.textContent = formatQuizTitle(quizId);
+      quizModal.style.display = "flex"; // Show the modal
+      quizResults.style.display = "none"; // Hide results initially
+      quizContent.style.display = "block"; // Show quiz content
+      prevQuestionBtn.style.display = "none"; // Hide prev button for first question
+      submitQuizBtn.style.display = "none"; // Hide submit button until last question
+      nextQuestionBtn.style.display = "inline-block"; // Show next button
+
+      displayQuestion();
+    }
+
+    function formatQuizTitle(quizId) {
+        // Convert "physics-heat" to "Physics: Heat and Thermodynamics Basics"
+        const parts = quizId.split('-');
+        let category = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+        let subcategory = parts.slice(1).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
+        // Specific adjustments for better titles (manual for now)
+        if (quizId === "physics-heat") subcategory = "Heat and Thermodynamics Basics";
+        if (quizId === "physics-electricity") subcategory = "Electricity and Magnetism";
+        if (quizId === "physics-optics") subcategory = "Optics Fundamentals";
+        if (quizId === "chemistry-bonding") subcategory = "Chemical Bonding";
+        if (quizId === "chemistry-organic") subcategory = "Organic Chemistry Introduction";
+        if (quizId === "biology-cells") subcategory = "Cell Biology Basics";
+        if (quizId === "biology-genetics") subcategory = "Genetics and Heredity";
+        if (quizId === "math-algebra") subcategory = "Algebra Fundamentals";
+        if (quizId === "math-calculus") subcategory = "Calculus I";
+
+        return `${category} Quizzes: ${subcategory}`;
+    }
+
+
+    function displayQuestion() {
+      const questionData = currentQuiz[currentQuestionIndex];
+      quizContent.innerHTML = `
+        <div class="question">
+          <p>${currentQuestionIndex + 1}. ${questionData.question}</p>
+        </div>
+        <div class="options" id="options">
+          ${questionData.options.map((option, index) => `
+            <label>
+              <input type="radio" name="answer" value="${option}" id="option${index}">
+              ${option}
+            </label>
+          `).join('')}
+        </div>
+        <div class="feedback" id="feedback"></div>
+      `;
+
+      // Pre-select user's previous answer if available
+      if (userAnswers[currentQuestionIndex] !== null) {
+        document.querySelector(`input[value="${userAnswers[currentQuestionIndex]}"]`).checked = true;
+      }
+
+      // Update button visibility
+      prevQuestionBtn.style.display = currentQuestionIndex > 0 ? "inline-block" : "none";
+      nextQuestionBtn.style.display = currentQuestionIndex < currentQuiz.length - 1 ? "inline-block" : "none";
+      submitQuizBtn.style.display = currentQuestionIndex === currentQuiz.length - 1 ? "inline-block" : "none";
+
+      // Clear previous feedback
+      const feedbackDiv = document.getElementById("feedback");
+      feedbackDiv.style.display = "none";
+      feedbackDiv.classList.remove('correct', 'incorrect');
+      feedbackDiv.innerHTML = '';
+
+      // Add event listener for radio button change to provide immediate feedback
+      document.querySelectorAll('input[name="answer"]').forEach(radio => {
+        radio.addEventListener('change', checkAnswer);
+      });
+    }
+
+    function checkAnswer() {
+      const selectedOption = document.querySelector('input[name="answer"]:checked');
+      const feedbackDiv = document.getElementById("feedback");
+      const currentQuestion = currentQuiz[currentQuestionIndex];
+
+      // Store the user's answer
+      userAnswers[currentQuestionIndex] = selectedOption ? selectedOption.value : null;
+
+      if (selectedOption) {
+        if (selectedOption.value === currentQuestion.answer) {
+          feedbackDiv.textContent = "Correct!";
+          feedbackDiv.classList.remove('incorrect');
+          feedbackDiv.classList.add('correct');
+        } else {
+          feedbackDiv.textContent = "Incorrect.";
+          feedbackDiv.classList.remove('correct');
+          feedbackDiv.classList.add('incorrect');
+          feedbackDiv.innerHTML += `<p class="explanation"><strong>Explanation:</strong> ${currentQuestion.explanation}</p>`;
+        }
+        feedbackDiv.style.display = "block";
+
+        // Disable all radio buttons after an answer is selected
+        document.querySelectorAll('input[name="answer"]').forEach(radio => {
+          radio.disabled = true;
+        });
+      }
+    }
+
+
+    function showNextQuestion() {
+      // Ensure an answer is selected before moving to the next question, or if we're reviewing
+      if (userAnswers[currentQuestionIndex] !== null || document.getElementById('feedback').style.display === "block") {
+          currentQuestionIndex++;
+          if (currentQuestionIndex < currentQuiz.length) {
+            displayQuestion();
+          }
+      } else {
+          alert("Please select an answer before moving to the next question.");
+      }
+    }
+
+    function showPreviousQuestion() {
+      currentQuestionIndex--;
+      if (currentQuestionIndex >= 0) {
+        displayQuestion();
+      }
+    }
+
+    function calculateResults() {
+      score = 0;
+      let incorrectAnswersHtml = '<h3>Incorrect Answers:</h3><ul>';
+      currentQuiz.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+        if (userAnswer === question.answer) {
+          score++;
+        } else {
+          incorrectAnswersHtml += `<li><strong>Question ${index + 1}:</strong> ${question.question}<br>
+                                   Your Answer: ${userAnswer || 'Not answered'}<br>
+                                   Correct Answer: ${question.answer}<br>
+                                   Explanation: ${question.explanation}</li>`;
+        }
+      });
+      incorrectAnswersHtml += '</ul>';
+
+      quizContent.style.display = "none";
+      prevQuestionBtn.style.display = "none";
+      nextQuestionBtn.style.display = "none";
+      submitQuizBtn.style.display = "none";
+      quizResults.style.display = "block";
+
+      quizResults.innerHTML = `
+        <h2>Quiz Complete!</h2>
+        <p>You scored ${score} out of ${currentQuiz.length} questions.</p>
+        <p>Your percentage: ${((score / currentQuiz.length) * 100).toFixed(2)}%</p>
+        ${incorrectAnswersHtml}
+        <button class="quiz-btn" onclick="resetQuiz()">Take Another Quiz</button>
+      `;
+    }
+
+    function resetQuiz() {
+      currentQuiz = [];
+      currentQuestionIndex = 0;
+      score = 0;
+      userAnswers = [];
+      quizModal.style.display = "none";
+      quizContent.innerHTML = ''; // Clear quiz content
+      quizResults.innerHTML = ''; // Clear results
+    }
+  </script>
+</body>
+</html>

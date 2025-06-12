@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - School Quiz App</title>
+  <style>
+    @font-face {
+      font-family: 'O';
+      src: url('Poppins.ttf') format('truetype');
+    }
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'O', sans-serif;
+    }
+    body {
+      background: url('head.png');
+      background-attachment: fixed;
+      color: white;
+    }
+   
+    .header {
+      height: 80px;
+      background: rgb(0,70,10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled {
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .logo img {
+      height: 160px;
+      width: auto;
+      position: relative;
+      left: 20px;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled .logo img {
+      left: 0px;
+    }
+    #check {
+      display: none;
+    }
+    #open, #cancel {
+      font-size: 30px;
+      cursor: pointer;
+      transition: 0.6s;
+    }
+    #open {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      color: white;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .header.scrolled #open {
+      right: 20px;
+    }
+    #cancel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 15;
+      color: black;
+    }
+    .nav-cont {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 50vw;
+      height: 100vh;
+      background-image: linear-gradient(rgba(255,255,255,0.4), rgba(0,0,0,0.5));
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 40px 30px;
+      transition: all 0.4s ease-in-out;
+      z-index: 15;
+    }
+    #check:checked ~ .nav-cont {
+      right: 0;
+    }
+    #check:checked ~ #layon {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+    .links {
+      margin-top: 100px;
+      width: 100%;
+    }
+    .links a {
+      display: block;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      color: black;
+      text-decoration: none;
+      text-transform: uppercase;
+      position: relative;
+      margin-bottom: 10px;
+      border-left: 3px solid transparent;
+      transition: all 0.5s ease;
+    }
+    .links a:hover {
+      background: rgba(255,255,255,0.1);
+      border-left: 3px solid white;
+      padding-left: 20px;
+    }
+    .links .dropdown {
+      position: relative;
+    }
+    .links .dropdown-content {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    .links .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    .links .dropdown-content a {
+      font-size: 0.95rem;
+      padding-left: 20px;
+      border-left: none;
+    }
+    .links .dropdown-content a:hover {
+      border-left: none;
+      padding-left: 25px;
+      background-color: rgba(255,255,255,0.15);
+    }
+    #layon {
+      background: rgba(0,0,0,0.4);
+    }
+    @media (min-width: 768px) {
+      .nav-cont {
+        width: 300px;
+      }
+    }
+   .bg{
+     background: rgba(0,0,0,0.4);
+   }
+    main section {
+      padding: 40px;
+    }
+    main h1 {
+      margin-bottom: 20px;
+      color: black;
+    }
+    .contact-info p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    .contact-form {
+      background-image: linear-gradient(rgba(0,0,0,0.3));
+      backdrop-filter: blur(5px);
+      padding: 30px;
+      box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.4);
+      border-radius: 5px;
+      margin-top: 30px;
+    }
+   .contact-form h2{
+     border-left: 5px Solid white;
+     width: 80%;
+     margin: 0 auto;
+     padding: 10px;
+     padding-left: 20px;
+     text-align: left;
+     background: black;
+     margin-bottom: 20px;
+   }
+  
+    .contact-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 30px;
+      background: rgba(0,0,0,0.2);
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .contact-form button {
+      background: black;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      margin:auto 100px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+    }
+    .contact-form button:hover {
+      background: white;
+      color: black;
+    }
+    footer {
+      background: rgba(0,70,10,1);
+      padding: 15px 0px;
+      text-align: center;
+      color: white;
+    }
+    footer p {
+      text-align: center;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+  <header class="header" id="header">
+    <div class="logo">
+      <img src="log.png" alt="Logo">
+    </div>
+    <input type="checkbox" id="check">
+    <label for="check" id="open">☰</label>
+    <label for="check" id="layon"></label>
+    <nav class="nav-cont">
+      <label for="check" id="cancel">✖</label>
+      <div class="links">
+        <a href="home.html"><img src="fi-sr-home.svg" width="30px" height="20px" /> Home</a>
+        <a href="about.html"><img src="fi-sr-book-alt.svg" width="30px" height="20px" /> About</a>
+        <a href="services.html"><img src="fi-sr-customer-service.svg" width="30px" height="25px" /> Services</a>
+        <a href="contact.html"><img src="fi-sr-phone-call.svg" width="30px" height="20px" /> Contact</a>
+        <div class="dropdown">
+          <a href="#"><img src="fi-sr-quiz.svg" width="30px" height="20px" /> Take a Quiz</a>
+          <div class="dropdown-content">
+            <a href="quiz-natural.html">For Natural Students</a>
+            <a href="quiz-social.html">For Social Students</a>
+          </div>
+        </div>
+        <a href="login.html"><img src="fi-sr-user.svg" width="30px" height="20px" /> Login</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h1><img src="fi-sr-phone-call.svg" width="30px" height="25px" /> Contact Us</h1>
+      <div class="contact-info">
+        <p>Have questions, feedback, or need assistance? Reach out to us using the contact information below or fill out the form.</p>
+        <p><strong>Email -</strong> info@sabianhighschool.edu</p>
+        <p><strong>Phone -</strong> +251 9XX XXX XXX (Sabian Secondary and Preparatory School)</p>
+        <p><strong>Address -</strong> Sabian Kebele 02, DireDawa, Ethiopia</p>
+        <p><strong>Telegram -</strong> <a href="https://t.me/DireSabian2011" style="color: lightblue; text-decoration: none;">Join our Telegram Channel</a></p>
+      </div>
+
+      <div class="contact-form">
+        <h2>Send us a Message</h2>
+        <form action="#" method="POST">
+          <label for="name">Your Name </label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">Your Email </label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="subject">Subject </label>
+          <input type="text" id="subject" name="subject" required>
+
+          <label for="message">Message </label>
+          <textarea id="message" name="message" required></textarea>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>© 2017 Eth.C | All rights reserved</p>
+    <p>Sabian Secondary and Preparatory School</p>
+    <p>Made by Students |<img src="fi-sr-Student.svg" width="30px" height="20px" /></p>
+  </footer>
+ </div>
+  <script>
+    window.addEventListener("scroll", function() {
+      const header = document.getElementById("header");
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  </script>
+</body>
+</html>
