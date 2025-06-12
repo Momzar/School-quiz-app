@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - School Quiz App</title>
+  <style>
+    @font-face {
+      font-family: 'O';
+      src: url('Poppins.ttf') format('truetype');
+    }
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'O',sans-serif;
+    }
+    body {
+      background: rgb(10,90,0);
+      color: white;
+    }
+    .header {
+      height: 80px;
+      background: rgb(0,70,10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled {
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .logo img {
+      height: 160px;
+      width: auto;
+      position: relative;
+      left: 20px;
+      transition: all 0.4s ease;
+    }
+    .header.scrolled .logo img {
+      left: 0px;
+    }
+    #check {
+      display: none;
+    }
+    #open, #cancel {
+      font-size: 30px;
+      cursor: pointer;
+      transition: 0.6s;
+    }
+    #open {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      color: white;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .header.scrolled #open {
+      right: 20px;
+    }
+    #cancel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 15;
+      color: black;     
+    }
+    .nav-cont {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 50vw;
+      height: 100vh;
+      background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.5));
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 40px 30px;
+      transition: all 0.4s ease-in-out;
+      z-index: 15;
+    }
+    #check:checked ~ .nav-cont {
+      right: 0;
+    }
+    #check:checked ~ #layon {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+    .links {
+      margin-top: 100px;
+      width: 100%;
+    }
+    .links a {
+      display: block;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      color: black;
+      text-decoration: none;
+      text-transform: uppercase;
+      position: relative;
+      margin-bottom: 10px;
+      border-left: 3px solid transparent;
+      transition: all 0.5s ease;
+    }
+    .links a:hover {
+      background: rgba(255,255,255,0.1);
+      border-left: 3px solid white;
+      padding-left: 20px;
+    }
+    .links .dropdown {
+      position: relative;
+    }
+    .links .dropdown-content {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    .links .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    .links .dropdown-content a {
+      font-size: 0.95rem;
+      padding-left: 20px;
+      border-left: none;
+    }
+    .links .dropdown-content a:hover {
+      border-left: none;
+      padding-left: 25px;
+      background-color: rgba(255,255,255,0.15);
+    }
+    #layon {
+      background: rgba(0,0,0,0.4);
+    }
+    @media (min-width: 768px) {
+      .nav-cont {
+        width: 300px;
+      }
+    }
+    main section {
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 80px - 80px); /* Adjust based on header/footer height */
+    }
+    .login-container {
+      background-image: linear-gradient(rgba(0,0,0,0.3));
+      backdrop-filter: blur(1px);
+      padding: 40px;
+      border-radius: 10px;
+      border-top: 5px solid black;
+      border-bottom: 5px solid black;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-container h1 {
+      margin-bottom: 30px;
+      color: white;
+    }
+    .login-container label {
+      display: block;
+      margin-bottom: 10px;
+      text-align: left;
+      font-weight: bold;
+    }
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      box-shadow: 5px rgba(0,0,0,0.8);
+      margin-bottom: 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+    .login-container button {
+      background: white;
+      color: black;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.1s ease;
+      width: 100%;
+      margin-top: 10px;
+      user-select: none;
+    }
+    .login-container button:hover {
+      background: black;
+      color: white;
+    }
+    .login-container .links-bottom {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
+    .login-container .links-bottom a{
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    .login-container .links-bottom a:hover {
+      color: black;
+    }
+  
+    footer {
+      background: rgba(0,70,10,1);
+      padding: 15px 0px;
+      text-align: center;
+      color: white;
+    }
+    footer p {
+      text-align: center;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="logo">
+      <img src="log.png" alt="Logo">
+    </div>
+    <input type="checkbox" id="check">
+    <label for="check" id="open">☰</label>
+    <label for="check" id="layon"></label>
+    <nav class="nav-cont">
+      <label for="check" id="cancel">✖</label>
+      <div class="links">
+        <a href="home.html"><img src="fi-sr-home.svg" width="30px" height="20px" /> Home</a>
+        <a href="about.html"><img src="fi-sr-book-alt.svg" width="30px" height="20px" /> About</a>
+        <a href="services.html"><img src="fi-sr-customer-service.svg" width="30px" height="25px" /> Services</a>
+        <a href="contact.html"><img src="fi-sr-phone-call.svg" width="30px" height="20px" /> Contact</a>
+        <div class="dropdown">
+          <a href="#"><img src="fi-sr-quiz.svg" width="30px" height="20px" /> Take a Quiz</a>
+          <div class="dropdown-content">
+            <a href="quiz-natural.html">For Natural Students</a>
+            <a href="quiz-social.html">For Social Students</a>
+          </div>
+        </div>
+        <a href="login.html"><img src="fi-sr-user.svg" width="30px" height="20px" /> Login</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <div class="login-container">
+        <h1>Login to Your Account</h1>
+        <form action="#" method="POST">
+          <label for="username">Username or Email</label>
+          <input type="text" id="username" name="username" required>
+
+          <label for="password">Password </label>
+          <input type="password" id="password" name="password" required>
+
+          <button type="submit">Login</button>
+        </form>
+        <div class="links-bottom">
+          <a href="#" id="forgot">forgot password?</a> |
+          <a href="#">Sign up</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>© 2017 Eth.C | All rights reserved</p>
+    <p>Sabian Secondary and Preparatory School</p>
+    <p>Made by Students |<img src="fi-sr-Student.svg" width="30px" height="20px" /></p>
+  </footer>
+  <script>
+    window.addEventListener("scroll", function() {
+      const header = document.getElementById("header");
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  </script>
+</body>
+</html>
